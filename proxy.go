@@ -38,6 +38,10 @@ func (hpd *httpProxyDialer) Dial(network string, addr string) (net.Conn, error) 
 		return nil, err
 	}
 
+	if hpd.proxyURL.Scheme == "http" || hpd.proxyURL.Scheme == "ws" {
+		return conn, nil
+	}
+
 	connectHeader := make(http.Header)
 	if user := hpd.proxyURL.User; user != nil {
 		proxyUser := user.Username()
